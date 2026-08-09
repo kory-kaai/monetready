@@ -6,6 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import type { MonetreadyScoreResult, PlaybookRunResult } from "@monetready/core";
 import { AppShell } from "@/components/layout/AppShell";
+import { AppErrorState } from "@/components/ui/AppErrorState";
+import { PageLoader } from "@/components/ui/PageLoader";
 import { Spinner } from "@/components/ui/Icons";
 import { authFetch, useAuthUser } from "@/hooks/useAuthUser";
 import { useUserProfile } from "@/hooks/useUserProfile";
@@ -223,11 +225,29 @@ export function DashboardClient({ productName }: DashboardClientProps) {
   }
 
   if (authLoading || loading) {
-    return <p className="dashboard-status">Loading dashboard…</p>;
+    return (
+      <PageLoader
+        message="Forging your dashboard"
+        submessage="Loading score, playbooks, and projects"
+      />
+    );
   }
 
-  if (!user || !overview) {
+  if (!user) {
     return null;
+  }
+
+  if (!overview) {
+    return (
+      <div className="app-layout">
+        <div className="bg-mesh" aria-hidden />
+        <AppErrorState
+          title="Couldn't load your dashboard"
+          message={error ?? "We couldn't reach the server. Check your connection and try again."}
+          onRetry={() => void loadOverview()}
+        />
+      </div>
+    );
   }
 
   const upgraded = searchParams.get("upgraded");

@@ -45,7 +45,12 @@ export async function getOrCreateUser(uid: string, email: string): Promise<UserR
     updatedAt: FieldValue.serverTimestamp(),
   });
 
-  await ensureDefaultProject(uid, email);
+  try {
+    await ensureDefaultProject(uid, email);
+  } catch (error) {
+    console.error("Failed to create default project for user", uid, error);
+  }
+
   return record;
 }
 

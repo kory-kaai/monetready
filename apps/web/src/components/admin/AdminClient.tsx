@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { AppShell } from "@/components/layout/AppShell";
+import { AppErrorState } from "@/components/ui/AppErrorState";
+import { PageLoader } from "@/components/ui/PageLoader";
 import { authFetch, useAuthUser } from "@/hooks/useAuthUser";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import type { PlanId } from "@/lib/plans";
@@ -81,11 +83,26 @@ export function AdminClient({ productName }: AdminClientProps) {
   }
 
   if (authLoading || profileLoading || loading) {
-    return <p className="dashboard-status">Loading admin panel…</p>;
+    return (
+      <PageLoader message="Loading admin panel" submessage="Fetching users and workspace stats" />
+    );
   }
 
   if (!user || !profile || !isAdminRole(profile.role)) {
     return null;
+  }
+
+  if (error && users.length === 0) {
+    return (
+      <div className="app-layout">
+        <div className="bg-mesh" aria-hidden />
+        <AppErrorState
+          title="Couldn't load admin panel"
+          message={error}
+          onRetry={() => void loadUsers()}
+        />
+      </div>
+    );
   }
 
   const adminCount = users.filter((row) => row.role === "admin").length;

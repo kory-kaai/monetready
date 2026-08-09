@@ -9,6 +9,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { PageLoader } from "@/components/ui/PageLoader";
 import { IconAlert, IconGoogle, Spinner } from "@/components/ui/Icons";
 import { getFirebaseAuth } from "@/lib/firebase/client";
 
@@ -45,6 +46,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
   const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   function validateField(field: "email" | "password", value: string): string | undefined {
     if (field === "email") {
@@ -84,6 +86,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }
+      setRedirecting(true);
       router.push("/dashboard");
     } catch (err) {
       const raw = err instanceof Error ? err.message : "Authentication failed";
@@ -99,6 +102,7 @@ export function AuthForm({ mode }: AuthFormProps) {
     try {
       const auth = getFirebaseAuth();
       await signInWithPopup(auth, new GoogleAuthProvider());
+      setRedirecting(true);
       router.push("/dashboard");
     } catch (err) {
       const raw = err instanceof Error ? err.message : "Google sign-in failed";
@@ -106,6 +110,15 @@ export function AuthForm({ mode }: AuthFormProps) {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (redirecting) {
+    return (
+      <PageLoader
+        message={mode === "login" ? "Welcome back" : "Account created"}
+        submessage="Taking you to your dashboard"
+      />
+    );
   }
 
   return (
