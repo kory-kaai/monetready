@@ -17,8 +17,8 @@ export function PageShell({ spec, children }: PageShellProps) {
       </a>
       <div className="bg-mesh" aria-hidden />
       <FloatingOrbs />
+      <SiteNav spec={spec} />
       <div className="container">
-        <SiteNav spec={spec} />
         <main id="main-content">{children}</main>
       </div>
       <SiteFooter spec={spec} />

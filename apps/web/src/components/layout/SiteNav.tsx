@@ -72,23 +72,25 @@ export function SiteNav({ spec }: SiteNavProps) {
   return (
     <>
       <nav className={`site-nav${scrolled ? " scrolled" : ""}`} aria-label="Main">
-        <Link href="/" className="logo">
-          <LogoMark />
-          {spec.product.name}
-        </Link>
+        <div className="container site-nav-inner">
+          <Link href="/" className="logo">
+            <LogoMark />
+            {spec.product.name}
+          </Link>
 
-        <div className="nav-links hide-mobile">{navLinks}</div>
+          <div className="nav-links hide-mobile">{navLinks}</div>
 
-        <button
-          type="button"
-          className="nav-menu-btn show-mobile"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-        >
-          {menuOpen ? <IconClose /> : <IconMenu />}
-        </button>
+          <button
+            type="button"
+            className="nav-menu-btn show-mobile"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+          >
+            {menuOpen ? <IconClose /> : <IconMenu />}
+          </button>
+        </div>
       </nav>
 
       {menuOpen ? (
