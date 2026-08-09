@@ -61,7 +61,7 @@ export function SiteNav({ spec }: SiteNavProps) {
       <nav className={`site-nav${scrolled ? " scrolled" : ""}`} aria-label="Main">
         <div className="container site-nav-inner">
           <Link href="/" className="logo">
-            <BrandLogo size={34} priority />
+            <BrandLogo size={68} priority />
             {spec.product.name}
           </Link>
 

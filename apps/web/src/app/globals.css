@@ -523,7 +523,7 @@ a {
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: center;
-  padding: 2rem 0 4rem;
+  padding: 1.5rem 0 4rem;
 }
 
 .auth-branding h2 {
@@ -537,18 +537,6 @@ a {
   color: var(--muted);
   margin-bottom: 1.5rem;
   max-width: 420px;
-}
-
-.auth-branding-logo {
-  margin-bottom: 1.25rem;
-}
-
-.auth-branding-kicker {
-  font-family: var(--display);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--accent-2);
-  margin-bottom: 1rem;
 }
 
 .auth-branding-list {

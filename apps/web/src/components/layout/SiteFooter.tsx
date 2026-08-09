@@ -16,7 +16,7 @@ export function SiteFooter({ spec }: SiteFooterProps) {
         <div className="footer-grid">
           <div>
             <Link href="/" className="logo footer-logo">
-              <BrandLogo size={40} />
+              <BrandLogo size={80} />
               {spec.product.name}
             </Link>
             <p style={{ color: "var(--muted)", maxWidth: 280, fontSize: "0.95rem" }}>
