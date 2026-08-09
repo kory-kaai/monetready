@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { MonetreadySpec } from "@monetready/core";
+import { IconChart, IconPlaybook, IconRocket } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface HomePageContentProps {
   spec: MonetreadySpec;
@@ -11,14 +13,17 @@ interface HomePageContentProps {
 
 const features = [
   {
+    icon: IconChart,
     title: "Monetready Score",
     description: "Audit pricing, GTM, analytics, and email readiness across six revenue categories.",
   },
   {
+    icon: IconPlaybook,
     title: "Revenue playbooks",
     description: "Six automation playbooks for trial endings, churn winback, inactive nudges, and more.",
   },
   {
+    icon: IconRocket,
     title: "Launch assets",
     description: "Generate landing pages, pricing, and legal docs from your monetready.yaml spec.",
   },
@@ -30,16 +35,23 @@ const steps = [
   { title: "Launch & automate", body: "Generate pages, connect Stripe + SES, and run playbooks on autopilot." },
 ];
 
+const trustItems = ["Firebase Auth", "Stripe billing", "Amazon SES", "Open source MIT"];
+
 export function HomePageContent({ spec }: HomePageContentProps) {
+  const reducedMotion = useReducedMotion();
+
   return (
     <>
       <section className="hero">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="hero-eyebrow">Open-source product forge</span>
+          <span className="hero-eyebrow">
+            <span className="hero-eyebrow-dot" aria-hidden />
+            Open-source product forge
+          </span>
           <h1>{spec.product.tagline}</h1>
           <p className="lead">{spec.product.solution}</p>
           <div className="hero-actions">
@@ -52,23 +64,34 @@ export function HomePageContent({ spec }: HomePageContentProps) {
           </div>
         </motion.div>
 
-        <Reveal delay={0.2}>
+        <Reveal delay={0.15}>
           <div className="stats-row">
-            <div className="stat-card">
-              <strong>6</strong>
-              <span>Revenue playbooks</span>
-            </div>
-            <div className="stat-card">
-              <strong>100</strong>
-              <span>Max Monetready Score</span>
-            </div>
-            <div className="stat-card">
-              <strong>MIT</strong>
-              <span>Open source core</span>
-            </div>
+            {[
+              { value: "6", label: "Revenue playbooks" },
+              { value: "100", label: "Max Monetready Score" },
+              { value: "MIT", label: "Open source core" },
+            ].map((stat) => (
+              <div key={stat.label} className="stat-card">
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
           </div>
         </Reveal>
       </section>
+
+      <Reveal>
+        <section className="trust-strip" aria-label="Integrations">
+          <p className="trust-label">Built with tools you already trust</p>
+          <div className="trust-items">
+            {trustItems.map((item) => (
+              <span key={item} className="trust-pill">
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+      </Reveal>
 
       <section className="section">
         <div className="section-header">
@@ -79,11 +102,11 @@ export function HomePageContent({ spec }: HomePageContentProps) {
         </div>
         <div className="steps">
           {steps.map((step, i) => (
-            <Reveal key={step.title} delay={i * 0.1}>
+            <Reveal key={step.title} delay={i * 0.08}>
               <div className="step-card">
                 <div className="step-num">{i + 1}</div>
                 <h3>{step.title}</h3>
-                <p style={{ color: "var(--muted)" }}>{step.body}</p>
+                <p className="step-body">{step.body}</p>
               </div>
             </Reveal>
           ))}
@@ -98,24 +121,28 @@ export function HomePageContent({ spec }: HomePageContentProps) {
           </Reveal>
         </div>
         <div className="feature-grid">
-          {features.map((feature, i) => (
-            <Reveal key={feature.title} delay={i * 0.08}>
-              <div className="feature-card">
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
-              </div>
-            </Reveal>
-          ))}
+          {features.map((feature, i) => {
+            const Icon = feature.icon;
+            return (
+              <Reveal key={feature.title} delay={i * 0.08}>
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <Icon />
+                  </div>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
       <Reveal>
         <div className="container">
           <div className="cta-banner">
-            <h2 style={{ fontFamily: "var(--display)", marginBottom: "0.75rem" }}>
-              Ready to forge your product?
-            </h2>
-            <p style={{ color: "var(--muted)", marginBottom: "1.5rem" }}>
+            <h2 className="cta-title">Ready to forge your product?</h2>
+            <p className="cta-lead">
               Join founders using Monetready to ship with pricing, playbooks, and launch assets from day one.
             </p>
             <Link href="/signup" className="btn btn-primary">

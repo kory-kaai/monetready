@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { PageShell } from "@/components/layout/PageShell";
 import { AuthForm } from "@/components/auth/AuthForm";
+import { AuthPageLayout } from "@/components/auth/AuthPageLayout";
+import { PageShell } from "@/components/layout/PageShell";
 import { getSiteSpec } from "@/lib/spec";
 
 export const metadata: Metadata = {
@@ -13,9 +14,9 @@ export default async function LoginPage() {
 
   return (
     <PageShell spec={spec}>
-      <div className="auth-page">
+      <AuthPageLayout>
         <AuthForm mode="login" />
-      </div>
+      </AuthPageLayout>
     </PageShell>
   );
 }

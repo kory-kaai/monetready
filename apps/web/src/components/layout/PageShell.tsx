@@ -12,11 +12,14 @@ interface PageShellProps {
 export function PageShell({ spec, children }: PageShellProps) {
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <div className="bg-mesh" aria-hidden />
       <FloatingOrbs />
       <div className="container">
         <SiteNav spec={spec} />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
       </div>
       <SiteFooter spec={spec} />
     </>

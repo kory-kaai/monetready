@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { MonetreadySpec } from "@monetready/core";
+import { IconClose, IconMenu } from "@/components/ui/Icons";
 
 function LogoMark() {
   return (
@@ -26,6 +27,7 @@ interface SiteNavProps {
 export function SiteNav({ spec }: SiteNavProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -34,37 +36,65 @@ export function SiteNav({ spec }: SiteNavProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   const github = spec.integrations.github;
 
+  const navLinks = (
+    <>
+      <Link href="/" className={pathname === "/" ? "active" : ""}>
+        Home
+      </Link>
+      <Link href="/pricing" className={pathname === "/pricing" ? "active" : ""}>
+        Pricing
+      </Link>
+      {github ? (
+        <a href={`https://github.com/${github}`} target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>
+      ) : null}
+      <Link href="/login">Log in</Link>
+      <Link href="/signup" className="btn btn-primary btn-sm nav-cta">
+        Get started
+      </Link>
+    </>
+  );
+
   return (
-    <nav className={`site-nav${scrolled ? " scrolled" : ""}`}>
+    <nav className={`site-nav${scrolled ? " scrolled" : ""}`} aria-label="Main">
       <Link href="/" className="logo">
         <LogoMark />
         {spec.product.name}
       </Link>
-      <div className="nav-links">
-        <Link href="/" className={pathname === "/" ? "active hide-mobile" : "hide-mobile"}>
-          Home
-        </Link>
-        <Link href="/pricing" className={pathname === "/pricing" ? "active" : ""}>
-          Pricing
-        </Link>
-        {github ? (
-          <a
-            href={`https://github.com/${github}`}
-            className="hide-mobile"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-        ) : null}
-        <Link href="/login" className="hide-mobile">
-          Log in
-        </Link>
-        <Link href="/signup" className="btn btn-primary btn-sm nav-cta">
-          Get started
-        </Link>
+
+      <div className="nav-links hide-mobile">{navLinks}</div>
+
+      <button
+        type="button"
+        className="nav-menu-btn show-mobile"
+        onClick={() => setMenuOpen((open) => !open)}
+        aria-expanded={menuOpen}
+        aria-controls="mobile-nav"
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+      >
+        {menuOpen ? <IconClose /> : <IconMenu />}
+      </button>
+
+      {menuOpen ? (
+        <div className="mobile-nav-overlay" onClick={() => setMenuOpen(false)} aria-hidden />
+      ) : null}
+
+      <div id="mobile-nav" className={`mobile-nav${menuOpen ? " open" : ""}`}>
+        <div className="mobile-nav-links">{navLinks}</div>
       </div>
     </nav>
   );

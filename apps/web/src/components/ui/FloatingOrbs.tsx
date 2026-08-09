@@ -1,8 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 export function FloatingOrbs() {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) {
+    return (
+      <>
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+      </>
+    );
+  }
+
   return (
     <>
       <motion.div
