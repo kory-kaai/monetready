@@ -1,6 +1,6 @@
-import Link from "next/link";
 import type { MonetreadySpec } from "@monetready/core";
 import { Reveal } from "@/components/ui/Reveal";
+import { PricingCTA } from "@/components/marketing/PricingCTA";
 
 interface PricingSectionProps {
   spec: MonetreadySpec;
@@ -35,12 +35,7 @@ export function PricingSection({ spec, featuredIndex = 1 }: PricingSectionProps)
                     <li key={feature}>{feature}</li>
                   ))}
                 </ul>
-                <Link
-                  href={tier.price === 0 ? "/signup" : "/signup"}
-                  className={`btn ${featured ? "btn-primary" : "btn-secondary"} btn-block`}
-                >
-                  {tier.price === 0 ? "Get started free" : "Subscribe now"}
-                </Link>
+                <PricingCTA tierName={tier.name} price={tier.price} featured={featured} />
               </div>
             </Reveal>
           );

@@ -50,6 +50,7 @@ export {
 } from "./webhooks/server.js";
 export type { WebhookServerOptions, WebhookServerHandle } from "./webhooks/server.js";
 export { generateLandingPage, generatePricingPage, generatePages } from "./generate/pages.js";
+export { generateAllLegalPages } from "./generate/legal.js";
 export { generateReadinessReport } from "./generate/report.js";
 export { writeGeneratedPages } from "./generate/writer.js";
 export type { GeneratePagesOptions, GeneratePagesResult } from "./generate/writer.js";

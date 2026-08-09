@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
 import { DashboardClient } from "@/components/dashboard/DashboardClient";
@@ -13,7 +14,9 @@ export default async function DashboardPage() {
 
   return (
     <PageShell spec={spec}>
-      <DashboardClient />
+      <Suspense fallback={<p className="dashboard-status">Loading dashboard…</p>}>
+        <DashboardClient />
+      </Suspense>
     </PageShell>
   );
 }

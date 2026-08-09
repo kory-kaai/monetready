@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { MonetreadySpec } from "@monetready/core";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { productEmail } from "@/lib/spec";
 
 interface SiteFooterProps {
@@ -14,15 +15,8 @@ export function SiteFooter({ spec }: SiteFooterProps) {
       <div className="container">
         <div className="footer-grid">
           <div>
-            <Link href="/" className="logo" style={{ marginBottom: "1rem" }}>
-              <span className="logo-mark" aria-hidden>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M12 2C8.5 8 4 10 4 14a8 8 0 0 0 16 0c0-4-4.5-6-8-12Z"
-                    fill="white"
-                  />
-                </svg>
-              </span>
+            <Link href="/" className="logo footer-logo">
+              <BrandLogo size={40} />
               {spec.product.name}
             </Link>
             <p style={{ color: "var(--muted)", maxWidth: 280, fontSize: "0.95rem" }}>

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
 interface AuthPageLayoutProps {
   children: ReactNode;
@@ -8,6 +9,7 @@ export function AuthPageLayout({ children }: AuthPageLayoutProps) {
   return (
     <div className="auth-page">
       <div className="auth-branding hide-mobile">
+        <BrandLogo size={56} className="auth-branding-logo" />
         <p className="auth-branding-kicker">Monetready</p>
         <h2>Forge products that are ready to earn.</h2>
         <p>

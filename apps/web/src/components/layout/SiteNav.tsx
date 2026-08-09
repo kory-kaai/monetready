@@ -4,21 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { MonetreadySpec } from "@monetready/core";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { IconClose, IconMenu } from "@/components/ui/Icons";
-
-function LogoMark() {
-  return (
-    <span className="logo-mark" aria-hidden>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M12 2C8.5 8 4 10 4 14a8 8 0 0 0 16 0c0-4-4.5-6-8-12Z"
-          fill="white"
-          opacity="0.95"
-        />
-      </svg>
-    </span>
-  );
-}
 
 interface SiteNavProps {
   spec: MonetreadySpec;
@@ -74,7 +61,7 @@ export function SiteNav({ spec }: SiteNavProps) {
       <nav className={`site-nav${scrolled ? " scrolled" : ""}`} aria-label="Main">
         <div className="container site-nav-inner">
           <Link href="/" className="logo">
-            <LogoMark />
+            <BrandLogo size={34} priority />
             {spec.product.name}
           </Link>
 
