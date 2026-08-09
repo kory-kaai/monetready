@@ -1456,17 +1456,19 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.75rem;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
   padding: 2rem;
 }
 
 .page-loader-rings {
   position: absolute;
-  top: 0.5rem;
+  top: 50%;
   left: 50%;
   width: 220px;
   height: 220px;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
@@ -1499,6 +1501,7 @@ a {
 
 .page-loader-core {
   position: relative;
+  z-index: 2;
   width: 120px;
   height: 120px;
   display: grid;
@@ -1524,8 +1527,13 @@ a {
 }
 
 .page-loader-copy {
+  position: absolute;
+  top: calc(50% + 7.5rem);
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
   max-width: 320px;
+  width: min(320px, 90vw);
 }
 
 .page-loader-message {

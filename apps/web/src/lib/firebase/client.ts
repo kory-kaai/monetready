@@ -17,6 +17,15 @@ let db: Firestore | undefined;
 let appCheck: AppCheck | undefined;
 let analytics: Analytics | undefined;
 
+function isLocalDevHost(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const host = window.location.hostname;
+  return host === "localhost" || host === "127.0.0.1";
+}
+
 function initAppCheck(firebaseApp: FirebaseApp): void {
   if (typeof window === "undefined" || appCheck) {
     return;
@@ -24,6 +33,12 @@ function initAppCheck(firebaseApp: FirebaseApp): void {
 
   const siteKey = process.env.NEXT_PUBLIC_FIREBASE_APP_CHECK_RECAPTCHA_SITE_KEY;
   const debugToken = process.env.NEXT_PUBLIC_FIREBASE_APP_CHECK_DEBUG_TOKEN;
+
+  // reCAPTCHA's invisible iframe calls requestStorageAccess on localhost and browsers
+  // with strict privacy settings deny it — harmless noise, but skip App Check in local dev.
+  if (isLocalDevHost() && process.env.NODE_ENV === "development" && !debugToken) {
+    return;
+  }
 
   if (debugToken && process.env.NODE_ENV === "development") {
     (self as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN: string }).FIREBASE_APPCHECK_DEBUG_TOKEN =
