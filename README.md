@@ -329,7 +329,7 @@ Packages are published to npm from this monorepo:
 
 | Package | npm name | Command |
 |---------|----------|---------|
-| Core | `monetready-core` | `npm publish -w monetready-core --access public` |
+| Core | `@monetready/core` | `npm publish -w @monetready/core --access public` |
 | CLI | `monetready-cli` | `npm publish -w monetready-cli` |
 | Scaffolder | `create-monetready` | `npm publish -w create-monetready` |
 
@@ -340,7 +340,7 @@ npm login
 npm run publish:packages
 ```
 
-`create-monetready` bundles its project template at build time, and `monetready-core` bundles playbooks — both are synced automatically via `npm run build`.
+`create-monetready` bundles its project template at build time, and `@monetready/core` bundles playbooks — both are synced automatically via `npm run build`.
 
 ## Philosophy
 

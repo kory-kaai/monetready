@@ -1,6 +1,6 @@
 {
   "name": "monetready-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Monetready CLI - score, launch, and monetize your product",
   "license": "MIT",
   "type": "module",
@@ -38,7 +38,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "monetready-core": "0.1.0",
+    "@monetready/core": "0.1.1",
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "ora": "^8.2.0",

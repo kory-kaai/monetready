@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { createDefaultSpec, serializeMonetreadySpec } from "monetready-core";
+import { createDefaultSpec, serializeMonetreadySpec } from "@monetready/core";
 import chalk from "chalk";
 import { Command } from "commander";
 import ora from "ora";

@@ -12,7 +12,7 @@ import {
   resolveStripeWebhookSecret,
   startWebhookServer,
   type PlaybookRunResult,
-} from "monetready-core";
+} from "@monetready/core";
 
 export const serveCommand = new Command("serve")
   .description("Start webhook server for live playbook execution")

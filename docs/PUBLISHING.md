@@ -19,7 +19,7 @@ Or add an automation token:
 
 Packages published in order:
 
-1. `monetready-core`
+1. `@monetready/core`
 2. `monetready-cli`
 3. `create-monetready`
 

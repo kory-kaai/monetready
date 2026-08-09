@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { Command } from "commander";
 import { join } from "node:path";
 import ora from "ora";
-import { loadMonetreadySpec, scoreProject, writeGeneratedPages } from "monetready-core";
+import { loadMonetreadySpec, scoreProject, writeGeneratedPages } from "@monetready/core";
 
 export const generateCommand = new Command("generate")
   .description("Generate launch assets from monetready.yaml");

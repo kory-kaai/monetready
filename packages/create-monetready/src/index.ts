@@ -3,7 +3,7 @@
 import { access, cp, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createDefaultSpec, serializeMonetreadySpec } from "monetready-core";
+import { createDefaultSpec, serializeMonetreadySpec } from "@monetready/core";
 import prompts from "prompts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

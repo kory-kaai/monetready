@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { buildLaunchChecklist, scoreProject, writeGeneratedPages } from "monetready-core";
+import { buildLaunchChecklist, scoreProject, writeGeneratedPages } from "@monetready/core";
 import chalk from "chalk";
 import { Command } from "commander";
 import { access } from "node:fs/promises";

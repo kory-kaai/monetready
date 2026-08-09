@@ -6,7 +6,7 @@ import {
   pollAnalyticsPlaybooks,
   runPlaybook,
   runScheduledPlaybooks,
-} from "monetready-core";
+} from "@monetready/core";
 import chalk from "chalk";
 import { Command } from "commander";
 import { join } from "node:path";

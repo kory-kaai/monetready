@@ -18,7 +18,7 @@ We aim to acknowledge reports within 48 hours and provide a fix or mitigation pl
 
 Security reports are in scope for:
 
-- `monetready-core`, `monetready-cli`, and `create-monetready`
+- `@monetready/core`, `monetready-cli`, and `create-monetready`
 - Webhook servers (`monetready serve`, dashboard API)
 - Credential handling and env var usage
 - Generated page injection or XSS risks

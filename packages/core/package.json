@@ -1,6 +1,6 @@
 {
-  "name": "monetready-core",
-  "version": "0.1.0",
+  "name": "@monetready/core",
+  "version": "0.1.1",
   "description": "Monetready core - spec parsing, Monetready Score engine, and playbook runtime",
   "license": "MIT",
   "type": "module",
