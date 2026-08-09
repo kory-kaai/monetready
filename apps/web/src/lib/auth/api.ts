@@ -1,5 +1,7 @@
 import type { DecodedIdToken } from "firebase-admin/auth";
 import { getAdminAuth } from "@/lib/firebase/admin";
+import { getOrCreateUser } from "@/lib/users";
+import { isAdminRole } from "@/lib/roles";
 
 export async function verifyAuthToken(request: Request): Promise<DecodedIdToken> {
   const header = request.headers.get("authorization");
@@ -24,4 +26,26 @@ export class ApiAuthError extends Error {
 
 export function isApiAuthError(error: unknown): error is ApiAuthError {
   return error instanceof ApiAuthError;
+}
+
+export class ApiForbiddenError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ApiForbiddenError";
+  }
+}
+
+export function isApiForbiddenError(error: unknown): error is ApiForbiddenError {
+  return error instanceof ApiForbiddenError;
+}
+
+export async function verifyAdminUser(request: Request) {
+  const decoded = await verifyAuthToken(request);
+  const user = await getOrCreateUser(decoded.uid, decoded.email ?? "");
+
+  if (!isAdminRole(user.role)) {
+    throw new ApiForbiddenError("Admin access required");
+  }
+
+  return user;
 }

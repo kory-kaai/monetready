@@ -15,9 +15,9 @@ export function SiteFooter({ spec }: SiteFooterProps) {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand-block">
-            <Link href="/" className="footer-brand">
-              <BrandLogo size={72} className="footer-brand-logo" />
-              <span className="footer-brand-name">{spec.product.name}</span>
+            <Link href="/" className="logo footer-brand">
+              <BrandLogo size={56} />
+              {spec.product.name}
             </Link>
             <p className="footer-tagline">{spec.product.tagline}</p>
           </div>

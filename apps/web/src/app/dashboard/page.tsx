@@ -1,6 +1,5 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
-import { PageShell } from "@/components/layout/PageShell";
+import { Suspense } from "react";
 import { DashboardClient } from "@/components/dashboard/DashboardClient";
 import { getSiteSpec } from "@/lib/spec";
 
@@ -13,10 +12,8 @@ export default async function DashboardPage() {
   const spec = await getSiteSpec();
 
   return (
-    <PageShell spec={spec}>
-      <Suspense fallback={<p className="dashboard-status">Loading dashboard…</p>}>
-        <DashboardClient />
-      </Suspense>
-    </PageShell>
+    <Suspense fallback={<p className="dashboard-status">Loading dashboard…</p>}>
+      <DashboardClient productName={spec.product.name} />
+    </Suspense>
   );
 }

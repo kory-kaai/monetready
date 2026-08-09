@@ -1,13 +1,30 @@
-import { FieldValue } from "firebase-admin/firestore";
+import { FieldValue, type DocumentData } from "firebase-admin/firestore";
 import type { PlanId } from "@/lib/plans";
 import { normalizePlanId } from "@/lib/plans";
 import { getAdminFirestore } from "@/lib/firebase/admin";
+import { normalizeUserRole, type UserRole } from "@/lib/roles";
 
 export interface UserRecord {
   uid: string;
   email: string;
   plan: PlanId;
+  role: UserRole;
   stripeCustomerId?: string;
+  createdAt?: string;
+}
+
+function mapUserDoc(uid: string, email: string, data: DocumentData): UserRecord {
+  return {
+    uid,
+    email: typeof data.email === "string" ? data.email : email,
+    plan: normalizePlanId(data.plan),
+    role: normalizeUserRole(data.role),
+    stripeCustomerId: typeof data.stripeCustomerId === "string" ? data.stripeCustomerId : undefined,
+    createdAt:
+      data.createdAt && typeof data.createdAt.toDate === "function"
+        ? data.createdAt.toDate().toISOString()
+        : undefined,
+  };
 }
 
 export async function getOrCreateUser(uid: string, email: string): Promise<UserRecord> {
@@ -16,19 +33,14 @@ export async function getOrCreateUser(uid: string, email: string): Promise<UserR
   const snap = await ref.get();
 
   if (snap.exists) {
-    const data = snap.data()!;
-    return {
-      uid,
-      email: typeof data.email === "string" ? data.email : email,
-      plan: normalizePlanId(data.plan),
-      stripeCustomerId: typeof data.stripeCustomerId === "string" ? data.stripeCustomerId : undefined,
-    };
+    return mapUserDoc(uid, email, snap.data()!);
   }
 
-  const record: UserRecord = { uid, email, plan: "free" };
+  const record: UserRecord = { uid, email, plan: "free", role: "user" };
   await ref.set({
     email,
     plan: "free",
+    role: "user",
     createdAt: FieldValue.serverTimestamp(),
     updatedAt: FieldValue.serverTimestamp(),
   });
@@ -93,4 +105,17 @@ export async function listUserProjects(uid: string) {
   }
 
   return [...byId.values()];
+}
+
+export async function listAllUsers(): Promise<UserRecord[]> {
+  const db = getAdminFirestore();
+  const snap = await db.collection("users").get();
+
+  return snap.docs
+    .map((doc) => mapUserDoc(doc.id, "", doc.data()))
+    .sort((a, b) => {
+      const aTime = a.createdAt ? Date.parse(a.createdAt) : 0;
+      const bTime = b.createdAt ? Date.parse(b.createdAt) : 0;
+      return bTime - aTime;
+    });
 }

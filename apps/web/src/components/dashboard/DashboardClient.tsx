@@ -5,10 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import type { MonetreadyScoreResult, PlaybookRunResult } from "@monetready/core";
+import { AppShell } from "@/components/layout/AppShell";
 import { Spinner } from "@/components/ui/Icons";
 import { authFetch, useAuthUser } from "@/hooks/useAuthUser";
+import { useUserProfile } from "@/hooks/useUserProfile";
 import type { PlanFeatures, PlanId } from "@/lib/plans";
 import { planDisplayName } from "@/lib/plans";
+import { isAdminRole } from "@/lib/roles";
 import { getFirebaseAuth } from "@/lib/firebase/client";
 
 interface DashboardPlaybook {
@@ -27,7 +30,7 @@ interface DashboardProject {
 }
 
 interface DashboardOverview {
-  user: { email: string; plan: PlanId };
+  user: { email: string; plan: PlanId; role: string };
   features: PlanFeatures;
   product: { name: string; tagline?: string };
   score: MonetreadyScoreResult;
@@ -47,10 +50,23 @@ interface DashboardOverview {
 
 type DashboardTab = "score" | "playbooks" | "generate" | "projects" | "cli";
 
-export function DashboardClient() {
+const USER_NAV_ITEMS = [
+  { id: "score", label: "Score" },
+  { id: "playbooks", label: "Playbooks" },
+  { id: "generate", label: "Launch assets" },
+  { id: "projects", label: "Projects" },
+  { id: "cli", label: "CLI" },
+] as const;
+
+interface DashboardClientProps {
+  productName: string;
+}
+
+export function DashboardClient({ productName }: DashboardClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, loading: authLoading, getToken } = useAuthUser();
+  const { profile } = useUserProfile();
   const [overview, setOverview] = useState<DashboardOverview | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -217,8 +233,27 @@ export function DashboardClient() {
   const upgraded = searchParams.get("upgraded");
 
   return (
-    <section className="section dashboard">
-      <div className="dashboard-header">
+    <AppShell
+      productName={productName}
+      title="User dashboard"
+      items={[...USER_NAV_ITEMS]}
+      activeId={tab}
+      onSelect={(id) => setTab(id as DashboardTab)}
+      sidebarFooter={
+        <>
+          {profile && isAdminRole(profile.role) ? (
+            <Link href="/admin" className="app-sidebar-link">
+              Admin panel
+            </Link>
+          ) : null}
+          <button type="button" className="app-sidebar-link" onClick={() => void handleSignOut()}>
+            Sign out
+          </button>
+        </>
+      }
+    >
+      <section className="dashboard-content">
+        <div className="dashboard-header">
         <div>
           <h1 className="dashboard-title">
             Welcome back{user.displayName ? `, ${user.displayName}` : ""}
@@ -247,7 +282,7 @@ export function DashboardClient() {
               {checkoutLoading === "team" ? <Spinner /> : "Upgrade to Team"}
             </button>
           ) : null}
-          <button type="button" className="btn btn-secondary btn-sm" onClick={handleSignOut}>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => void handleSignOut()}>
             Sign out
           </button>
         </div>
@@ -277,29 +312,6 @@ export function DashboardClient() {
           </button>
         </div>
       ) : null}
-
-      <div className="dashboard-tabs" role="tablist">
-        {(
-          [
-            ["score", "Score"],
-            ["playbooks", "Playbooks"],
-            ["generate", "Launch assets"],
-            ["projects", "Projects"],
-            ["cli", "CLI"],
-          ] as const
-        ).map(([id, label]) => (
-          <button
-            key={id}
-            type="button"
-            role="tab"
-            aria-selected={tab === id}
-            className={`dashboard-tab${tab === id ? " active" : ""}`}
-            onClick={() => setTab(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
 
       {tab === "score" ? (
         <div className="dashboard-panel">
@@ -528,6 +540,7 @@ export function DashboardClient() {
           </Link>
         </div>
       ) : null}
-    </section>
+      </section>
+    </AppShell>
   );
 }

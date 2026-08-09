@@ -27,6 +27,7 @@ export async function GET(request: Request) {
       user: {
         email: user.email,
         plan: user.plan,
+        role: user.role,
       },
       features,
       product: {
