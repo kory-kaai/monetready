@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm install --prefix=../..",
+  "buildCommand": "npm run build --prefix=../.. -w @monetready/core && next build",
+  "framework": "nextjs"
+}

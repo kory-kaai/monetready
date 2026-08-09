@@ -49,11 +49,35 @@ describe("runPlaybook", () => {
       integrations: { email: "resend", analytics: "none", stripe: false, github: "" },
     });
 
-    const result = await runPlaybook(samplePlaybook, spec, { dryRun: false });
+    const result = await runPlaybook(samplePlaybook, spec, {
+      dryRun: false,
+      integrations: {
+        fromEmail: "hello@monetready.com",
+        defaultEmailTo: "user@example.com",
+      },
+    });
 
     expect(result.status).toBe("failed");
     expect(result.actions[0]?.status).toBe("error");
     expect(result.actions[0]?.output).toContain("RESEND_API_KEY");
+  });
+
+  it("returns actionable errors when SES credentials are missing", async () => {
+    const spec = createDefaultSpec({
+      integrations: { email: "ses", analytics: "none", stripe: false, github: "" },
+    });
+
+    const result = await runPlaybook(samplePlaybook, spec, {
+      dryRun: false,
+      integrations: {
+        fromEmail: "hello@monetready.com",
+        defaultEmailTo: "user@example.com",
+      },
+    });
+
+    expect(result.status).toBe("failed");
+    expect(result.actions[0]?.status).toBe("error");
+    expect(result.actions[0]?.output).toContain("AWS_ACCESS_KEY_ID");
   });
 
   it("substitutes template variables before sending email", async () => {

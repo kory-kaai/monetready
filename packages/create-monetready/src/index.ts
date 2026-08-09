@@ -79,8 +79,8 @@ async function main(): Promise<void> {
     },
     integrations: {
       stripe: false,
-      analytics: "posthog",
-      email: "resend",
+      analytics: "firebase",
+      email: "ses",
     },
   });
 

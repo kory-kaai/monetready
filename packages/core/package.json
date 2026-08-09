@@ -47,6 +47,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.787.0",
     "yaml": "^2.7.0",
     "zod": "^3.24.2"
   },

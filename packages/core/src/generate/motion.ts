@@ -1,8 +1,24 @@
 import type { MonetreadySpec } from "../schema/monetready-spec.js";
+import { resolveFirebaseMeasurementId } from "../integrations/firebase-analytics.js";
 import { resolvePostHogHost, resolvePostHogKey } from "../integrations/posthog.js";
 
 export function analyticsScript(spec: MonetreadySpec): string {
   switch (spec.integrations.analytics) {
+    case "firebase": {
+      const measurementId = resolveFirebaseMeasurementId();
+      if (!measurementId) {
+        return `<!-- Firebase Analytics: set NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID to enable -->`;
+      }
+
+      return `
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${measurementId}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${measurementId}');
+    </script>`;
+    }
     case "posthog": {
       const key = resolvePostHogKey();
       const host = resolvePostHogHost();
@@ -19,8 +35,14 @@ export function analyticsScript(spec: MonetreadySpec): string {
     case "plausible":
       return `
     <script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>`;
-    default:
+    case "mixpanel":
+      return `<!-- Mixpanel: add your mixpanel snippet or set MIXPANEL_TOKEN -->`;
+    case "none":
       return "";
+    default: {
+      const _exhaustive: never = spec.integrations.analytics;
+      return `<!-- Unsupported analytics provider: ${String(_exhaustive)} -->`;
+    }
   }
 }
 

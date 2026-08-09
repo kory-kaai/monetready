@@ -151,12 +151,16 @@ export async function detectProjectSignals(projectRoot: string): Promise<Project
     /mixpanel/i,
     /@vercel\/analytics/,
     /gtag\(/,
+    /firebase\/analytics/,
+    /NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID/,
   ]);
 
   const hasEmailIntegration = await scanDirectoryForPatterns(projectRoot, [
     /resend/i,
     /sendgrid/i,
     /postmark/i,
+    /@aws-sdk\/client-ses/,
+    /amazon.?ses/i,
     /@react-email/,
   ]);
 

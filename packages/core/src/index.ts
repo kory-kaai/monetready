@@ -23,6 +23,10 @@ export {
 export { loadIntegrationContext } from "./integrations/context.js";
 export type { IntegrationContext } from "./integrations/context.js";
 export { sendResendEmail } from "./integrations/resend.js";
+export { sendSesEmail, resolveSesRegion } from "./integrations/ses.js";
+export {
+  resolveFirebaseMeasurementId,
+} from "./integrations/firebase-analytics.js";
 export { postSlackMessage } from "./integrations/slack.js";
 export { postWebhook } from "./integrations/webhook.js";
 export {

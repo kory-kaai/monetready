@@ -4,6 +4,9 @@ dist/
 .DS_Store
 .env
 .env.local
+.env*.local
+apps/web/.aws/
+*firebase-adminsdk*.json
 .monetready/
 !.monetready/pages/.gitkeep
 coverage/

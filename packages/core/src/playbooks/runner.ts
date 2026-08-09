@@ -2,6 +2,7 @@ import type { MonetreadySpec } from "../schema/monetready-spec.js";
 import { loadIntegrationContext, type IntegrationContext } from "../integrations/context.js";
 import { parseEmailTemplate, buildEmailTemplateVars, substituteTemplateVars } from "../integrations/email-template.js";
 import { sendResendEmail } from "../integrations/resend.js";
+import { resolveSesRegion, sendSesEmail } from "../integrations/ses.js";
 import { postSlackMessage } from "../integrations/slack.js";
 import { postWebhook } from "../integrations/webhook.js";
 import type { Playbook, PlaybookRunResult } from "./types.js";
@@ -70,6 +71,67 @@ function resolveOverallStatus(
   return "executed";
 }
 
+interface SendPlaybookEmailOptions {
+  spec: MonetreadySpec;
+  integrations: IntegrationContext;
+  recipient: string;
+  subject: string;
+  text: string;
+}
+
+async function sendPlaybookEmail(
+  options: SendPlaybookEmailOptions,
+): Promise<{ ok: boolean; id?: string; error?: string }> {
+  const provider = options.spec.integrations.email;
+
+  switch (provider) {
+    case "resend": {
+      if (!options.integrations.resendApiKey) {
+        return { ok: false, error: "Missing RESEND_API_KEY. Set it in your environment to send emails." };
+      }
+      return sendResendEmail({
+        apiKey: options.integrations.resendApiKey,
+        from: options.integrations.fromEmail!,
+        to: options.recipient,
+        subject: options.subject,
+        text: options.text,
+      });
+    }
+    case "ses": {
+      if (!options.integrations.awsAccessKeyId || !options.integrations.awsSecretAccessKey) {
+        return {
+          ok: false,
+          error: "Missing AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY for SES.",
+        };
+      }
+      return sendSesEmail({
+        region: options.integrations.sesRegion ?? resolveSesRegion(),
+        accessKeyId: options.integrations.awsAccessKeyId,
+        secretAccessKey: options.integrations.awsSecretAccessKey,
+        from: options.integrations.fromEmail!,
+        to: options.recipient,
+        subject: options.subject,
+        text: options.text,
+      });
+    }
+    case "sendgrid":
+    case "postmark":
+      return {
+        ok: false,
+        error: `Email provider "${provider}" is configured in monetready.yaml but not implemented yet. Use ses or resend.`,
+      };
+    case "none":
+      return {
+        ok: false,
+        error: "Email integration is disabled. Set integrations.email in monetready.yaml.",
+      };
+    default: {
+      const _exhaustive: never = provider;
+      return { ok: false, error: `Unsupported email provider: ${String(_exhaustive)}` };
+    }
+  }
+}
+
 export async function runPlaybook(
   playbook: Playbook,
   spec: MonetreadySpec,
@@ -101,21 +163,13 @@ export async function runPlaybook(
           break;
         }
 
-        if (spec.integrations.email !== "resend") {
+        const emailProvider = spec.integrations.email;
+        if (emailProvider !== "resend" && emailProvider !== "ses") {
           actions.push({
             type: "email",
             status: "error",
             output:
-              "Email integration is not set to resend in monetready.yaml. Set integrations.email: resend to send.",
-          });
-          break;
-        }
-
-        if (!integrations.resendApiKey) {
-          actions.push({
-            type: "email",
-            status: "error",
-            output: "Missing RESEND_API_KEY. Set it in your environment to send emails.",
+              `Email integration is set to "${emailProvider}" in monetready.yaml. Set integrations.email to ses or resend to send.`,
           });
           break;
         }
@@ -124,7 +178,10 @@ export async function runPlaybook(
           actions.push({
             type: "email",
             status: "error",
-            output: "Missing MONETREADY_FROM_EMAIL. Set a verified sender address for Resend.",
+            output:
+              emailProvider === "ses"
+                ? "Missing SES_FROM_EMAIL or MONETREADY_FROM_EMAIL. Set a verified SES sender address."
+                : "Missing MONETREADY_FROM_EMAIL. Set a verified sender address for Resend.",
           });
           break;
         }
@@ -141,10 +198,10 @@ export async function runPlaybook(
 
         const parsed = parseEmailTemplate(body);
         const recipient = options.context?.emailTo ?? integrations.defaultEmailTo!;
-        const result = await sendResendEmail({
-          apiKey: integrations.resendApiKey,
-          from: integrations.fromEmail,
-          to: recipient,
+        const result = await sendPlaybookEmail({
+          spec,
+          integrations,
+          recipient,
           subject: parsed.subject,
           text: parsed.text,
         });
@@ -161,7 +218,7 @@ export async function runPlaybook(
         actions.push({
           type: "email",
           status: "ok",
-          output: `Email sent to ${recipient} (id: ${result.id ?? "unknown"})`,
+          output: `Email sent to ${recipient} via ${emailProvider} (id: ${result.id ?? "unknown"})`,
         });
         break;
       }

@@ -112,6 +112,7 @@ export const setupCommand = new Command("setup")
         name: "analytics",
         message: "Analytics provider",
         choices: [
+          { title: "Firebase / Google Analytics", value: "firebase" },
           { title: "PostHog", value: "posthog" },
           { title: "Plausible", value: "plausible" },
           { title: "None yet", value: "none" },
@@ -122,6 +123,7 @@ export const setupCommand = new Command("setup")
         name: "email",
         message: "Email provider",
         choices: [
+          { title: "Amazon SES", value: "ses" },
           { title: "Resend", value: "resend" },
           { title: "SendGrid", value: "sendgrid" },
           { title: "None yet", value: "none" },

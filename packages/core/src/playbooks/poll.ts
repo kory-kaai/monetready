@@ -33,7 +33,9 @@ export async function pollAnalyticsPlaybooks(
   options: PollAnalyticsOptions,
 ): Promise<PollAnalyticsResult> {
   if (options.spec.integrations.analytics !== "posthog") {
-    throw new Error("Analytics polling requires integrations.analytics: posthog in monetready.yaml");
+    throw new Error(
+      "Analytics polling requires integrations.analytics: posthog in monetready.yaml. Firebase/GA4 uses in-app events instead of CLI polling.",
+    );
   }
 
   const posthogConfig = loadPostHogQueryConfig();

@@ -249,8 +249,8 @@ gtm:
 
 integrations:
   stripe: true
-  analytics: posthog
-  email: resend
+  analytics: firebase
+  email: ses
 
 playbooks:
   - trial-ending-upgrade

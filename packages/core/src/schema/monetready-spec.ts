@@ -42,8 +42,8 @@ export const ProductSchema = z.object({
 
 export const IntegrationsSchema = z.object({
   stripe: z.boolean().default(false),
-  analytics: z.enum(["posthog", "plausible", "mixpanel", "none"]).default("none"),
-  email: z.enum(["resend", "sendgrid", "postmark", "none"]).default("none"),
+  analytics: z.enum(["firebase", "posthog", "plausible", "mixpanel", "none"]).default("none"),
+  email: z.enum(["ses", "resend", "sendgrid", "postmark", "none"]).default("none"),
   github: z.string().optional(),
 });
 

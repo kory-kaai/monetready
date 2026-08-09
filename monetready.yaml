@@ -47,8 +47,8 @@ gtm:
 
 integrations:
   stripe: true
-  analytics: posthog
-  email: resend
+  analytics: firebase
+  email: ses
   github: kory-kaai/monetready
 
 playbooks:
