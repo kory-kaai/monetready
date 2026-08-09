@@ -48,10 +48,6 @@ export function HomePageContent({ spec }: HomePageContentProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="hero-eyebrow">
-            <span className="hero-eyebrow-dot" aria-hidden />
-            Open-source product forge
-          </span>
           <h1>{spec.product.tagline}</h1>
           <p className="lead">{spec.product.solution}</p>
           <div className="hero-actions">
@@ -82,14 +78,9 @@ export function HomePageContent({ spec }: HomePageContentProps) {
 
       <Reveal>
         <section className="trust-strip" aria-label="Integrations">
-          <p className="trust-label">Built with tools you already trust</p>
-          <div className="trust-items">
-            {trustItems.map((item) => (
-              <span key={item} className="trust-pill">
-                {item}
-              </span>
-            ))}
-          </div>
+          <p className="trust-line">
+            {trustItems.join(" · ")}
+          </p>
         </section>
       </Reveal>
 

@@ -37,7 +37,6 @@ export function DashboardClient() {
 
   return (
     <section className="section">
-      <span className="hero-eyebrow">Dashboard</span>
       <h1 style={{ fontFamily: "var(--display)", fontSize: "2rem", marginBottom: "0.5rem" }}>
         Welcome back{user.displayName ? `, ${user.displayName}` : ""}
       </h1>

@@ -8,7 +8,7 @@ export function AuthPageLayout({ children }: AuthPageLayoutProps) {
   return (
     <div className="auth-page">
       <div className="auth-branding hide-mobile">
-        <p className="auth-branding-eyebrow">Monetready</p>
+        <p className="auth-branding-kicker">Monetready</p>
         <h2>Forge products that are ready to earn.</h2>
         <p>
           Audit your GTM stack, automate revenue playbooks, and launch with pricing and legal pages from

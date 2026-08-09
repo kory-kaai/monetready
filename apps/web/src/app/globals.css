@@ -237,43 +237,6 @@ a {
   text-align: center;
 }
 
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  border: 1px solid rgba(249, 115, 22, 0.25);
-  color: var(--accent-2);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-}
-
-.hero-eyebrow-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent-2);
-  box-shadow: 0 0 12px var(--accent-glow);
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(0.85);
-  }
-}
-
 .hero h1 {
   font-family: var(--display);
   font-size: clamp(2.5rem, 6vw, 4.25rem);
@@ -328,29 +291,10 @@ a {
   padding: 0 0 2rem;
 }
 
-.trust-label {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.trust-line {
   color: var(--muted);
-  margin-bottom: 1rem;
-}
-
-.trust-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.trust-pill {
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--muted);
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
 }
 
 .stat-card strong {
@@ -576,12 +520,10 @@ a {
   max-width: 420px;
 }
 
-.auth-branding-eyebrow {
-  display: inline-block;
-  font-size: 0.8rem;
+.auth-branding-kicker {
+  font-family: var(--display);
+  font-size: 0.95rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   color: var(--accent-2);
   margin-bottom: 1rem;
 }

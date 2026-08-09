@@ -19,7 +19,6 @@ export default async function PricingPage() {
     <PageShell spec={spec}>
       <section className="hero" style={{ paddingBottom: "2rem" }}>
         <Reveal>
-          <span className="hero-eyebrow">Pricing</span>
           <h1>Pick your forge</h1>
           <p className="lead">Start free. Scale when your product earns.</p>
         </Reveal>
