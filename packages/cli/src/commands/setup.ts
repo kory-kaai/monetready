@@ -5,7 +5,7 @@ import {
   DEFAULT_PLAYBOOK_IDS,
   serializeMonetreadySpec,
   type MonetreadySpec,
-} from "@monetready/core";
+} from "monetready-core";
 import chalk from "chalk";
 import { Command } from "commander";
 import prompts from "prompts";

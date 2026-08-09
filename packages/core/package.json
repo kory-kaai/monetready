@@ -1,5 +1,5 @@
 {
-  "name": "@monetready/core",
+  "name": "monetready-core",
   "version": "0.1.0",
   "description": "Monetready core - spec parsing, Monetready Score engine, and playbook runtime",
   "license": "MIT",

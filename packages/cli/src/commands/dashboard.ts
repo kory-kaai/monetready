@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { Command } from "commander";
 import ora from "ora";
-import { startDashboardServer } from "@monetready/core";
+import { startDashboardServer } from "monetready-core";
 
 export const dashboardCommand = new Command("dashboard")
   .description("Start the local-first Monetready dashboard")

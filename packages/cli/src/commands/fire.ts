@@ -1,4 +1,4 @@
-import { buildLaunchChecklist, loadMonetreadySpec, scoreProject } from "@monetready/core";
+import { buildLaunchChecklist, loadMonetreadySpec, scoreProject } from "monetready-core";
 import chalk from "chalk";
 import { Command } from "commander";
 import { join } from "node:path";

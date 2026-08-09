@@ -1,4 +1,4 @@
-import { scoreProject } from "@monetready/core";
+import { scoreProject } from "monetready-core";
 import chalk from "chalk";
 import { Command } from "commander";
 import ora from "ora";

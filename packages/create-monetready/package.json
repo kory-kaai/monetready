@@ -38,7 +38,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@monetready/core": "0.1.0",
+    "monetready-core": "0.1.0",
     "prompts": "^2.4.2"
   },
   "devDependencies": {

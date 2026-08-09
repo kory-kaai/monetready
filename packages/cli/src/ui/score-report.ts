@@ -1,4 +1,4 @@
-import type { MonetreadyScoreResult } from "@monetready/core";
+import type { MonetreadyScoreResult } from "monetready-core";
 import chalk from "chalk";
 
 const CATEGORY_LABELS: Record<string, string> = {

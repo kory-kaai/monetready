@@ -8,4 +8,5 @@ dist/
 !.monetready/pages/.gitkeep
 coverage/
 packages/create-monetready/template/
+.npmrc.publish
 *.log

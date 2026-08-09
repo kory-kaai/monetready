@@ -52,7 +52,7 @@ High-impact contributions:
 
 ## Playbook contributions
 
-Playbooks live in `playbooks/` at the repo root. After editing, run `npm run sync` to copy them into `@monetready/core` and the scaffolder template.
+Playbooks live in `playbooks/` at the repo root. After editing, run `npm run sync` to copy them into `monetready-core` and the scaffolder template.
 
 Each playbook should include:
 
