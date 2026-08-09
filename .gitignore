@@ -7,6 +7,10 @@ dist/
 .env*.local
 apps/web/.aws/
 *firebase-adminsdk*.json
+.next/
+**/.next/
+out/
+.vercel
 .monetready/
 !.monetready/pages/.gitkeep
 coverage/
