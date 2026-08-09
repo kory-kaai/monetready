@@ -1,19 +1,24 @@
-import { getAppUrl } from "@/lib/firebase/config";
+import type { Metadata } from "next";
+import { PageShell } from "@/components/layout/PageShell";
+import { HomePageContent } from "@/components/marketing/HomePageContent";
+import { PricingSection } from "@/components/marketing/PricingSection";
+import { getSiteSpec } from "@/lib/spec";
 
-export default function HomePage() {
-  const appUrl = getAppUrl();
+export async function generateMetadata(): Promise<Metadata> {
+  const spec = await getSiteSpec();
+  return {
+    title: `${spec.product.name} — ${spec.product.tagline}`,
+    description: spec.product.solution,
+  };
+}
+
+export default async function HomePage() {
+  const spec = await getSiteSpec();
 
   return (
-    <main style={{ fontFamily: "system-ui, sans-serif", padding: "2rem", maxWidth: 720 }}>
-      <h1>Monetready</h1>
-      <p>Cloud dashboard — Firebase + Vercel scaffold is ready.</p>
-      <p>
-        <code>apps/web/.env.local</code> is configured. Add App Check and Admin SDK secrets to
-        finish setup.
-      </p>
-      <p>
-        App URL: <strong>{appUrl}</strong>
-      </p>
-    </main>
+    <PageShell spec={spec}>
+      <HomePageContent spec={spec} />
+      <PricingSection spec={spec} />
+    </PageShell>
   );
 }
