@@ -70,32 +70,38 @@ export function SiteNav({ spec }: SiteNavProps) {
   );
 
   return (
-    <nav className={`site-nav${scrolled ? " scrolled" : ""}`} aria-label="Main">
-      <Link href="/" className="logo">
-        <LogoMark />
-        {spec.product.name}
-      </Link>
+    <>
+      <nav className={`site-nav${scrolled ? " scrolled" : ""}`} aria-label="Main">
+        <Link href="/" className="logo">
+          <LogoMark />
+          {spec.product.name}
+        </Link>
 
-      <div className="nav-links hide-mobile">{navLinks}</div>
+        <div className="nav-links hide-mobile">{navLinks}</div>
 
-      <button
-        type="button"
-        className="nav-menu-btn show-mobile"
-        onClick={() => setMenuOpen((open) => !open)}
-        aria-expanded={menuOpen}
-        aria-controls="mobile-nav"
-        aria-label={menuOpen ? "Close menu" : "Open menu"}
-      >
-        {menuOpen ? <IconClose /> : <IconMenu />}
-      </button>
+        <button
+          type="button"
+          className="nav-menu-btn show-mobile"
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+        >
+          {menuOpen ? <IconClose /> : <IconMenu />}
+        </button>
+      </nav>
 
       {menuOpen ? (
-        <div className="mobile-nav-overlay" onClick={() => setMenuOpen(false)} aria-hidden />
+        <div className="mobile-nav-overlay show-mobile" onClick={() => setMenuOpen(false)} aria-hidden />
       ) : null}
 
-      <div id="mobile-nav" className={`mobile-nav${menuOpen ? " open" : ""}`}>
+      <div
+        id="mobile-nav"
+        className={`mobile-nav show-mobile${menuOpen ? " open" : ""}`}
+        aria-hidden={!menuOpen}
+      >
         <div className="mobile-nav-links">{navLinks}</div>
       </div>
-    </nav>
+    </>
   );
 }
