@@ -1,0 +1,48 @@
+name: Feature request
+description: Suggest an idea for Monetready
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea? We'd love to hear it. Check [Discussions](https://github.com/kory-kaai/monetready/discussions) for broader ideas too.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this solve for indie hackers?
+      placeholder: I'm trying to monetize my OSS project but...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How would Monetready solve it?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds or other tools you've tried?
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Monetready Score
+        - Revenue playbooks
+        - CLI / DX
+        - Page generator
+        - Dashboard
+        - Integrations
+        - Docs
+        - Other
+    validations:
+      required: true

@@ -1,0 +1,8 @@
+{
+  "npm.packageManager": "npm",
+  "npm.scriptExplorerExclude": [
+    "**/node_modules/**",
+    "**/templates/**"
+  ],
+  "npm.exclude": "**/node_modules/**"
+}

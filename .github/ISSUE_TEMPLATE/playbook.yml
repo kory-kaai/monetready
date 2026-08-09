@@ -1,0 +1,41 @@
+name: Playbook contribution
+description: Propose a new revenue playbook
+title: "[Playbook]: "
+labels: ["playbook", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Revenue playbooks are YAML files in `playbooks/`. See [CONTRIBUTING.md](https://github.com/kory-kaai/monetready/blob/main/CONTRIBUTING.md#playbook-contributions).
+
+  - type: input
+    id: playbook-id
+    attributes:
+      label: Playbook ID
+      placeholder: trial-ending-upgrade
+    validations:
+      required: true
+
+  - type: textarea
+    id: trigger
+    attributes:
+      label: Trigger
+      description: When should this playbook run?
+      placeholder: Stripe trial ending in 3 days
+    validations:
+      required: true
+
+  - type: textarea
+    id: actions
+    attributes:
+      label: Actions
+      description: What should happen?
+      placeholder: Send upgrade email, post to Slack
+    validations:
+      required: true
+
+  - type: textarea
+    id: niche
+    attributes:
+      label: Target niche
+      placeholder: B2B SaaS, dev tools, newsletters, etc.

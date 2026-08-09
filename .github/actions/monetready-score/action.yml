@@ -1,0 +1,19 @@
+name: Monetready Score
+description: Run Monetready Score and fail CI when the score is below a threshold
+
+inputs:
+  path:
+    description: Project directory containing monetready.yaml
+    required: false
+    default: .
+  min-score:
+    description: Minimum Monetready Score (0–100) required to pass
+    required: false
+    default: "60"
+
+runs:
+  using: composite
+  steps:
+    - name: Run Monetready Score
+      shell: bash
+      run: node packages/cli/dist/index.js score --path "${{ inputs.path }}" --min-score "${{ inputs.min-score }}"

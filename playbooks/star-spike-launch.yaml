@@ -1,0 +1,15 @@
+id: star-spike-launch
+name: Star Spike Launch
+description: Generate launch copy when your GitHub repo gets a star spike
+category: growth
+trigger:
+  type: analytics
+  event: github.stars.spike
+  condition: "stars_24h >= 50"
+actions:
+  - type: generate
+    template: hackernews-post
+  - type: email
+    template: star-spike
+  - type: slack
+    message: "Repo trending! Time to launch on HN."

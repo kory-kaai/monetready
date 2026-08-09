@@ -1,0 +1,12 @@
+id: weekly-revenue-check
+name: Weekly Revenue Check
+description: Log a weekly reminder to review MRR, churn, and conversion metrics
+category: retention
+trigger:
+  type: schedule
+  event: "0 9 * * 1"
+actions:
+  - type: log
+    message: Weekly revenue review — check Stripe dashboard, Monetready Score, and top findings
+  - type: slack
+    message: "Weekly revenue check: review MRR, churn, and Monetready Score findings."

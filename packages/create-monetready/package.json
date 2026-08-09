@@ -1,0 +1,49 @@
+{
+  "name": "create-monetready",
+  "version": "0.1.0",
+  "description": "Scaffold a revenue-ready product with Monetready",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "create-monetready": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "template"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kory-kaai/monetready.git",
+    "directory": "packages/create-monetready"
+  },
+  "homepage": "https://github.com/kory-kaai/monetready#readme",
+  "bugs": {
+    "url": "https://github.com/kory-kaai/monetready/issues"
+  },
+  "keywords": [
+    "monetready",
+    "create",
+    "scaffold",
+    "saas",
+    "indie-hacker",
+    "monetization"
+  ],
+  "scripts": {
+    "prebuild": "node ../../scripts/sync-template.mjs",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@monetready/core": "0.1.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/prompts": "^2.4.9",
+    "typescript": "^5.8.2"
+  }
+}

@@ -1,0 +1,44 @@
+name: Playbooks Poll
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Poll PostHog for inactive users
+        env:
+          POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}
+          POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          MONETREADY_FROM_EMAIL: ${{ secrets.MONETREADY_FROM_EMAIL }}
+          MONETREADY_PLAYBOOK_EMAIL_TO: ${{ secrets.MONETREADY_PLAYBOOK_EMAIL_TO }}
+        run: |
+          if [ -n "$POSTHOG_PERSONAL_API_KEY" ] && [ -n "$POSTHOG_PROJECT_ID" ]; then
+            if [ -n "$RESEND_API_KEY" ] && [ -n "$MONETREADY_FROM_EMAIL" ] && [ -n "$MONETREADY_PLAYBOOK_EMAIL_TO" ]; then
+              node packages/cli/dist/index.js playbooks poll --execute
+            else
+              node packages/cli/dist/index.js playbooks poll
+            fi
+          else
+            echo "PostHog secrets not configured — skipping poll (dry-run only in CI)."
+            node packages/cli/dist/index.js playbooks poll || true
+          fi
+
+      - name: Run scheduled playbooks
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: node packages/cli/dist/index.js playbooks schedule --execute || true

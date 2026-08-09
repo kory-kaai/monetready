@@ -1,0 +1,13 @@
+id: inactive-user-nudge
+name: Inactive User Nudge
+description: Re-engage users who signed up but never completed setup
+category: onboarding
+trigger:
+  type: analytics
+  event: user.inactive_48h
+  condition: "signup_completed == false"
+actions:
+  - type: email
+    template: inactive-nudge
+  - type: log
+    message: Inactive user nudge sent

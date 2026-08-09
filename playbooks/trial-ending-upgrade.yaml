@@ -1,0 +1,12 @@
+id: trial-ending-upgrade
+name: Trial Ending Upgrade
+description: Send a personalized upgrade email 3 days before trial ends
+category: conversion
+trigger:
+  type: stripe
+  event: customer.subscription.trial_will_end
+actions:
+  - type: email
+    template: trial-ending
+  - type: log
+    message: Trial ending upgrade email queued

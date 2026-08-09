@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.local
+.monetready/
+!.monetready/pages/.gitkeep
+coverage/
+packages/create-monetready/template/
+*.log

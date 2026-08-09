@@ -1,0 +1,58 @@
+{
+  "name": "@monetready/core",
+  "version": "0.1.0",
+  "description": "Monetready core - spec parsing, Monetready Score engine, and playbook runtime",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist",
+    "playbooks"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kory-kaai/monetready.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/kory-kaai/monetready#readme",
+  "bugs": {
+    "url": "https://github.com/kory-kaai/monetready/issues"
+  },
+  "keywords": [
+    "monetready",
+    "saas",
+    "indie-hacker",
+    "monetization",
+    "revenue",
+    "playbooks"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prebuild": "node ../../scripts/sync-playbooks.mjs",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "yaml": "^2.7.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8"
+  }
+}

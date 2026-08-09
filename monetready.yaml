@@ -1,0 +1,60 @@
+version: "1"
+
+product:
+  name: Monetready
+  tagline: Turn raw ideas into revenue-ready products
+  problem: Indie hackers ship MVPs but fail at pricing, distribution, and conversion
+  solution: Monetready audits, automates, and launches your product with business-aware tooling
+  url: https://github.com/kory-kaai/monetready
+
+pricing:
+  model: freemium
+  currency: usd
+  tiers:
+    - name: Free
+      price: 0
+      interval: month
+      features:
+        - Monetready Score audits
+        - 6 revenue playbooks
+        - Self-hosted CLI
+    - name: Pro
+      price: 19
+      interval: month
+      features:
+        - Everything in Free
+        - Live playbook execution
+        - Stripe + email integrations
+        - Launch asset generation
+    - name: Team
+      price: 49
+      interval: month
+      features:
+        - Everything in Pro
+        - Multi-product dashboard
+        - Team collaboration
+        - Priority support
+
+gtm:
+  channels:
+    - github
+    - hackernews
+    - devto
+    - producthunt
+  launch_date: "2026-03-15"
+  unfair_advantage: First open-source tool that connects spec-driven development to revenue outcomes — not just code generation
+  target_audience: Indie hackers, solo founders, and OSS maintainers who want to monetize
+
+integrations:
+  stripe: true
+  analytics: posthog
+  email: resend
+  github: kory-kaai/monetready
+
+playbooks:
+  - trial-ending-upgrade
+  - inactive-user-nudge
+  - new-subscriber-welcome
+  - churn-risk-winback
+  - star-spike-launch
+  - weekly-revenue-check

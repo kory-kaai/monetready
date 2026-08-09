@@ -1,0 +1,14 @@
+id: new-subscriber-welcome
+name: New Subscriber Welcome
+description: Onboard new paying customers with a value-focused welcome sequence
+category: onboarding
+trigger:
+  type: stripe
+  event: customer.subscription.created
+actions:
+  - type: email
+    template: welcome
+  - type: slack
+    message: "New subscriber! 🎉 Check dashboard for details."
+  - type: log
+    message: Welcome sequence triggered

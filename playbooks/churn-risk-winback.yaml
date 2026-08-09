@@ -1,0 +1,14 @@
+id: churn-risk-winback
+name: Churn Risk Winback
+description: Win back users who cancelled with feedback request and extension offer
+category: retention
+trigger:
+  type: stripe
+  event: customer.subscription.deleted
+actions:
+  - type: email
+    template: churn-winback
+  - type: webhook
+    url: https://hooks.example.com/churn
+  - type: log
+    message: Churn winback playbook triggered
