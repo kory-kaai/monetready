@@ -323,6 +323,8 @@ monetready/
 
 ## Publishing
 
+See [docs/PUBLISHING.md](docs/PUBLISHING.md) for npm publish, profile setup, and launch links.
+
 Packages are published to npm from this monorepo:
 
 | Package | npm name | Command |
