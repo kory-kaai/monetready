@@ -14,14 +14,12 @@ export function SiteFooter({ spec }: SiteFooterProps) {
     <footer className="site-footer">
       <div className="container">
         <div className="footer-grid">
-          <div>
-            <Link href="/" className="logo footer-logo">
-              <BrandLogo size={80} />
-              {spec.product.name}
+          <div className="footer-brand-block">
+            <Link href="/" className="footer-brand">
+              <BrandLogo size={72} className="footer-brand-logo" />
+              <span className="footer-brand-name">{spec.product.name}</span>
             </Link>
-            <p style={{ color: "var(--muted)", maxWidth: 280, fontSize: "0.95rem" }}>
-              {spec.product.tagline}
-            </p>
+            <p className="footer-tagline">{spec.product.tagline}</p>
           </div>
           <div>
             <h4>Product</h4>
