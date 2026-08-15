@@ -3,15 +3,15 @@ import {
   findPlaybooksDir,
   loadPlaybookById,
   runPlaybook,
-  scoreProject,
 } from "@monetready/core";
 import { isApiAuthError, verifyAuthToken } from "@/lib/auth/api";
-import { getMonorepoRoot } from "@/lib/paths";
 import { getPlanFeatures } from "@/lib/plans";
+import { getProjectSpec, isProjectMember } from "@/lib/projects";
 import { getOrCreateUser } from "@/lib/users";
 
 interface RunBody {
   execute?: boolean;
+  projectId?: string;
 }
 
 export async function POST(
@@ -26,6 +26,15 @@ export async function POST(
 
     const body = (await request.json().catch(() => ({}))) as RunBody;
     const execute = body.execute === true;
+    const projectId = body.projectId?.trim();
+
+    if (!projectId) {
+      return NextResponse.json({ error: "projectId is required" }, { status: 400 });
+    }
+
+    if (!(await isProjectMember(projectId, decoded.uid))) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
 
     if (execute && !features.playbooksExecute) {
       return NextResponse.json(
@@ -34,8 +43,7 @@ export async function POST(
       );
     }
 
-    const projectRoot = getMonorepoRoot();
-    const playbooksDir = await findPlaybooksDir(projectRoot);
+    const playbooksDir = await findPlaybooksDir(process.cwd());
     if (!playbooksDir) {
       return NextResponse.json({ error: "Playbooks directory not found" }, { status: 500 });
     }
@@ -45,7 +53,7 @@ export async function POST(
       return NextResponse.json({ error: `Playbook "${id}" not found` }, { status: 404 });
     }
 
-    const { spec } = await scoreProject(projectRoot);
+    const spec = await getProjectSpec(projectId);
     const result = await runPlaybook(playbook, spec, { dryRun: !execute });
 
     return NextResponse.json(result);

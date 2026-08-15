@@ -3,6 +3,7 @@ import type { PlanId } from "@/lib/plans";
 import { normalizePlanId } from "@/lib/plans";
 import { getAdminFirestore } from "@/lib/firebase/admin";
 import { normalizeUserRole, type UserRole } from "@/lib/roles";
+import { createDefaultSpecYaml } from "@/lib/projects";
 
 export interface UserRecord {
   uid: string;
@@ -83,10 +84,16 @@ async function ensureDefaultProject(uid: string, email: string): Promise<void> {
   }
 
   const projectName = email.split("@")[0] || "My product";
+  const specYaml = createDefaultSpecYaml(projectName);
   await db.collection("projects").add({
     name: projectName,
     ownerId: uid,
     memberIds: [uid],
+    specYaml,
+    specSource: "default",
+    productName: projectName,
+    productTagline: "Your product tagline",
+    githubRepo: null,
     createdAt: FieldValue.serverTimestamp(),
     updatedAt: FieldValue.serverTimestamp(),
   });
@@ -97,7 +104,20 @@ export async function listUserProjects(uid: string) {
   const owned = await db.collection("projects").where("ownerId", "==", uid).get();
   const member = await db.collection("projects").where("memberIds", "array-contains", uid).get();
 
-  const byId = new Map<string, { id: string; name: string; ownerId: string; memberIds: string[] }>();
+  const byId = new Map<
+    string,
+    {
+      id: string;
+      name: string;
+      ownerId: string;
+      memberIds: string[];
+      githubRepo: string | null;
+      specSource: string;
+      specSyncedAt: string | null;
+      productName: string;
+      productTagline: string | null;
+    }
+  >();
 
   for (const doc of [...owned.docs, ...member.docs]) {
     const data = doc.data();
@@ -106,6 +126,14 @@ export async function listUserProjects(uid: string) {
       name: String(data.name ?? "Untitled"),
       ownerId: String(data.ownerId ?? ""),
       memberIds: Array.isArray(data.memberIds) ? data.memberIds.map(String) : [],
+      githubRepo: typeof data.githubRepo === "string" ? data.githubRepo : null,
+      specSource: typeof data.specSource === "string" ? data.specSource : "default",
+      specSyncedAt:
+        data.specSyncedAt && typeof data.specSyncedAt.toDate === "function"
+          ? data.specSyncedAt.toDate().toISOString()
+          : null,
+      productName: String(data.productName ?? data.name ?? "Untitled"),
+      productTagline: typeof data.productTagline === "string" ? data.productTagline : null,
     });
   }
 

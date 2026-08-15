@@ -71,14 +71,23 @@ Open http://localhost:3000
 
 PostHog and Resend are **not** required for this app. The OSS CLI still supports them as optional playbook providers.
 
-## Firestore collections (planned)
+## Firestore collections
 
 | Collection | Purpose |
 |------------|---------|
-| `users/{uid}` | Profile, plan tier |
-| `projects/{id}` | `monetready.yaml` spec per product |
-| `projects/{id}/pages` | Generated landing/pricing HTML metadata |
-| `projects/{id}/runs` | Playbook execution history |
+| `users/{uid}` | Profile, plan tier, role |
+| `userSecrets/{uid}` | GitHub OAuth tokens (server-only, no client access) |
+| `projects/{id}` | Product workspace: `specYaml`, `githubRepo`, `productName`, members |
+| `projects/{id}/pages` | Generated landing/pricing HTML metadata (planned) |
+| `projects/{id}/runs` | Playbook execution history (planned) |
+
+Each signed-up user gets a default project with a starter `monetready.yaml`. Score, playbooks, and launch asset generation use the **active project's spec** — not the monorepo's root yaml on the server.
+
+### GitHub sync
+
+1. Enable **GitHub** provider in Firebase Auth (add OAuth app credentials to Firebase console)
+2. Dashboard → Projects → **Connect GitHub**
+3. Set `owner/repo` and click **Sync from GitHub** to pull `monetready.yaml`
 
 ## Suggested Firebase products
 

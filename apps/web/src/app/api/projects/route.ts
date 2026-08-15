@@ -3,6 +3,7 @@ import { FieldValue } from "firebase-admin/firestore";
 import { isApiAuthError, verifyAuthToken } from "@/lib/auth/api";
 import { getPlanFeatures } from "@/lib/plans";
 import { getAdminFirestore } from "@/lib/firebase/admin";
+import { createDefaultSpecYaml } from "@/lib/projects";
 import { getOrCreateUser, listUserProjects } from "@/lib/users";
 
 interface CreateProjectBody {
@@ -49,10 +50,16 @@ export async function POST(request: Request) {
     }
 
     const db = getAdminFirestore();
+    const specYaml = createDefaultSpecYaml(name);
     const doc = await db.collection("projects").add({
       name,
       ownerId: decoded.uid,
       memberIds: [decoded.uid],
+      specYaml,
+      specSource: "default",
+      productName: name,
+      productTagline: "Your product tagline",
+      githubRepo: null,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });

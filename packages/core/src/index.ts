@@ -8,9 +8,15 @@ export {
 } from "./schema/monetready-spec.js";
 export type { MonetreadyScoreResult, ScoreFinding, ProjectSignals } from "./score/types.js";
 export type { Playbook, PlaybookRunResult } from "./playbooks/types.js";
-export { createDefaultSpec, loadMonetreadySpec, serializeMonetreadySpec } from "./spec/loader.js";
+export {
+  createDefaultSpec,
+  loadMonetreadySpec,
+  parseMonetreadySpecYaml,
+  serializeMonetreadySpec,
+} from "./spec/loader.js";
 export { calculateMonetreadyScore } from "./score/engine.js";
 export { detectProjectSignals } from "./score/signals.js";
+export { deriveSignalsFromSpec, mergeProjectSignals } from "./score/spec-signals.js";
 export { loadPlaybooks, loadPlaybookById } from "./playbooks/loader.js";
 export { runPlaybook } from "./playbooks/runner.js";
 export type { RunPlaybookOptions } from "./playbooks/runner.js";
@@ -58,7 +64,7 @@ export { startDashboardServer, getDefaultDashboardDataPath, resolveDashboardExec
 export type { DashboardServerOptions, DashboardServerHandle } from "./dashboard/server.js";
 export { buildLaunchChecklist } from "./launch/checklist.js";
 export type { FireResult } from "./launch/checklist.js";
-export { findPlaybooksDir, scoreProject } from "./project.js";
+export { findPlaybooksDir, scoreProject, scoreSpec, scoreSpecWithProject } from "./project.js";
 export {
   loadWorkspace,
   resolveWorkspaceProduct,

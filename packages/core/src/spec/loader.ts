@@ -4,6 +4,10 @@ import { DEFAULT_MONETREADY_SPEC, MonetreadySpec, MonetreadySpecSchema } from ".
 
 export async function loadMonetreadySpec(filePath: string): Promise<MonetreadySpec> {
   const raw = await readFile(filePath, "utf-8");
+  return parseMonetreadySpecYaml(raw);
+}
+
+export function parseMonetreadySpecYaml(raw: string): MonetreadySpec {
   const parsed = parseYaml(raw);
   return MonetreadySpecSchema.parse(parsed);
 }

@@ -2,13 +2,16 @@ import { NextResponse } from "next/server";
 import {
   generateAllLegalPages,
   generatePages,
-  scoreProject,
+  scoreSpec,
 } from "@monetready/core";
 import { isApiAuthError, verifyAuthToken } from "@/lib/auth/api";
-import { getMonorepoRoot } from "@/lib/paths";
-import { getSiteSpec } from "@/lib/spec";
 import { getPlanFeatures } from "@/lib/plans";
+import { getProjectSpec, isProjectMember } from "@/lib/projects";
 import { getOrCreateUser } from "@/lib/users";
+
+interface GenerateBody {
+  projectId?: string;
+}
 
 export async function POST(request: Request) {
   try {
@@ -23,9 +26,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const spec = await getSiteSpec();
-    const projectRoot = getMonorepoRoot();
-    const { result } = await scoreProject(projectRoot);
+    const body = (await request.json().catch(() => ({}))) as GenerateBody;
+    const projectId = body.projectId?.trim();
+
+    if (!projectId) {
+      return NextResponse.json({ error: "projectId is required" }, { status: 400 });
+    }
+
+    if (!(await isProjectMember(projectId, decoded.uid))) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
+
+    const spec = await getProjectSpec(projectId);
+    const { total } = scoreSpec(spec);
     const { landing, pricing } = generatePages(spec);
     const legal = generateAllLegalPages(spec);
 
@@ -37,7 +50,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       product: spec.product.name,
-      score: result.total,
+      score: total,
       files,
     });
   } catch (error) {

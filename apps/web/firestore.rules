@@ -41,5 +41,10 @@ service cloud.firestore {
         allow read, write: if isProjectMember(projectId);
       }
     }
+
+    // Server-only secrets (GitHub tokens) — no client access
+    match /userSecrets/{userId} {
+      allow read, write: if false;
+    }
   }
 }

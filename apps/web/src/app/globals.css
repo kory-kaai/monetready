@@ -1651,3 +1651,52 @@ a {
     animation: none;
   }
 }
+
+.project-switcher {
+  padding: 0.45rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 0.85rem;
+  max-width: 200px;
+}
+
+.active-product-label {
+  margin-bottom: 1rem;
+}
+
+.github-connect-box,
+.github-repo-box,
+.spec-editor-box {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
+.spec-editor {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-monospace, monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.project-card.active {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.25);
+}
+
+.btn-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}

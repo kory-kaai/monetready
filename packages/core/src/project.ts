@@ -2,8 +2,9 @@ import { join, resolve, dirname } from "node:path";
 import { access } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { calculateMonetreadyScore } from "./score/engine.js";
+import { deriveSignalsFromSpec, mergeProjectSignals } from "./score/spec-signals.js";
 import { detectProjectSignals } from "./score/signals.js";
-import type { MonetreadyScoreResult } from "./score/types.js";
+import type { MonetreadyScoreResult, ProjectSignals } from "./score/types.js";
 import { createDefaultSpec, loadMonetreadySpec } from "./spec/loader.js";
 import type { MonetreadySpec } from "./schema/monetready-spec.js";
 
@@ -61,5 +62,22 @@ export async function scoreProject(
   const signals = await detectProjectSignals(projectRoot);
   const result = calculateMonetreadyScore(spec, signals);
 
+  return { spec, result };
+}
+
+/** Score from a spec object without filesystem access (hosted SaaS projects). */
+export function scoreSpec(
+  spec: MonetreadySpec,
+  signalOverrides?: Partial<ProjectSignals>,
+): MonetreadyScoreResult {
+  const signals = mergeProjectSignals(deriveSignalsFromSpec(spec), signalOverrides);
+  return calculateMonetreadyScore(spec, signals);
+}
+
+export async function scoreSpecWithProject(
+  spec: MonetreadySpec,
+  signalOverrides?: Partial<ProjectSignals>,
+): Promise<{ spec: MonetreadySpec; result: MonetreadyScoreResult }> {
+  const result = scoreSpec(spec, signalOverrides);
   return { spec, result };
 }
