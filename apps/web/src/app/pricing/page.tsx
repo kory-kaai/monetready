@@ -20,7 +20,7 @@ export default async function PricingPage() {
       <section className="hero" style={{ paddingBottom: "2rem" }}>
         <Reveal>
           <h1>Pick your forge</h1>
-          <p className="lead">Start free. Scale when your product earns.</p>
+          <p className="lead">Start free on monetready.com or self-host with the CLI — same spec and score either way.</p>
         </Reveal>
       </section>
       <PricingSection spec={spec} />

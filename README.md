@@ -14,7 +14,9 @@
 <p align="center"><strong>The open-source product forge</strong> — score revenue readiness, run playbooks, and launch pages from a single <code>monetready.yaml</code>. Self-hosted. MIT.</p>
 
 <p align="center">
+  <a href="https://www.monetready.com"><strong>monetready.com</strong></a> ·
   <a href="#try-it-in-60-seconds">Try in 60s</a> ·
+  <a href="#two-ways-to-use-monetready">Hosted vs CLI</a> ·
   <a href="#npm-packages">npm</a> ·
   <a href="#monetready-score">Score</a> ·
   <a href="#revenue-playbooks">Playbooks</a> ·
@@ -88,6 +90,20 @@ Not launch-ready yet. Run `monetready fire` for a full checklist.
 
 Monetready is the missing layer between "I built something" and "I'm making money from it." While AI agents write code and n8n automates workflows, nobody owns the **business outcome loop**: validate → price → launch → convert → retain → grow.
 
+## Two ways to use Monetready
+
+Monetready is **one product** with two complementary fronts — same `monetready.yaml`, same Monetready Score, same six playbooks, powered by [`@monetready/core`](packages/core):
+
+| | **Hosted** ([monetready.com](https://www.monetready.com)) | **Self-hosted** (this repo) |
+|---|---|---|
+| Best for | Sign up, multi-product dashboard, Stripe billing | Your machine, your data, full control |
+| Get started | [Create free account](https://www.monetready.com/signup) | `npx monetready-cli init` or `npx create-monetready my-saas` |
+| Dashboard | [monetready.com/dashboard](https://www.monetready.com/dashboard) | `monetready dashboard` → `http://127.0.0.1:3721` |
+| YAML sync | Pull `monetready.yaml` from GitHub in the dashboard | Local files in your repo |
+| Live adapters | Firebase Auth, Stripe, Amazon SES | PostHog, Resend, Slack, webhooks |
+
+The hosted app (`apps/web`, deployed at [monetready.com](https://www.monetready.com)) and the CLI in this repo are not separate products — they share the spec format, score engine, and playbook library.
+
 ## Why Monetready?
 
 | Tool | What it does | What it misses |
@@ -109,6 +125,7 @@ Monetready is the missing layer between "I built something" and "I'm making mone
 | Guided setup (wizard) | `monetready setup` |
 | Full launch pipeline | `monetready launch` |
 | Local dashboard | `monetready dashboard --open` |
+| Hosted dashboard | [Create free account](https://www.monetready.com/signup) at monetready.com |
 
 ## Monetready Score
 
@@ -169,6 +186,10 @@ Pages include scroll animations, animated stats, FAQ accordions, gradient mesh b
 
 ## Dashboard
 
+Monetready has **two dashboards** — same score and playbooks, different runtimes:
+
+### Self-hosted (CLI)
+
 Local-first UI for your product — no cloud, no account:
 
 ```bash
@@ -179,13 +200,19 @@ monetready dashboard --open   # auto-open browser
 monetready dashboard --allow-execute   # enable live playbook runs from UI
 ```
 
-The dashboard shows:
+The local dashboard shows:
 - **Monetready Score** with grade and category breakdown
 - **Findings** and recommendations
 - **Launch checklist** and next steps
 - **Revenue playbooks** with one-click dry-run
 
 All data is read from your local `monetready.yaml` and project files. Nothing leaves your machine.
+
+### Hosted ([monetready.com](https://www.monetready.com))
+
+Sign up for a free account to get a multi-product dashboard with Firebase Auth, Stripe billing, and **GitHub sync** of `monetready.yaml` from your repo. See [`apps/web/README.md`](apps/web/README.md) for setup.
+
+This is not the same binary as `monetready dashboard` — it is the hosted SaaS front built on the same `@monetready/core` engine.
 
 ### Multi-product workspace (Team)
 
@@ -320,6 +347,8 @@ monetready/
 │   ├── core/          # Spec parser, Monetready Score engine, playbook runtime
 │   ├── cli/           # monetready CLI
 │   └── create-monetready/   # Project scaffolder
+├── apps/
+│   └── web/           # monetready.com — hosted SaaS (Next.js on Vercel)
 ├── playbooks/         # Revenue playbook library (YAML)
 ├── templates/         # Project templates
 └── monetready.yaml          # Monetready's own product spec
@@ -374,7 +403,7 @@ Monetready doesn't try to build your SaaS for you. It helps you **ship and monet
 - **Validation before build** — define problem and audience first
 - **Differentiation prompts** — unfair advantage is a first-class field
 - **Metrics over templates** — optimize for revenue, not vanity launches
-- **Self-hosted by default** — your business data stays yours
+- **Your choice of front** — self-hosted CLI by default, or the hosted app at [monetready.com](https://www.monetready.com)
 
 ## Contributing
 

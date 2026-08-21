@@ -462,6 +462,17 @@ a {
   color: var(--success);
 }
 
+.pricing-feature-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-border);
+  text-underline-offset: 3px;
+}
+
+.pricing-feature-link:hover {
+  color: var(--accent-2);
+}
+
 .cta-banner {
   margin: 2rem 0 4rem;
   padding: 3rem 2rem;
@@ -575,6 +586,17 @@ a {
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.auth-branding-alt {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.auth-branding-alt a {
+  color: var(--accent-2);
+  text-decoration: none;
 }
 
 .auth-card {
@@ -702,6 +724,10 @@ a {
 .auth-footer a {
   color: var(--accent-2);
   text-decoration: none;
+}
+
+.auth-footer-secondary {
+  margin-top: 0.75rem;
 }
 
 .legal-layout {
@@ -1245,6 +1271,18 @@ a {
 .cli-card code {
   color: var(--accent-2);
   font-size: 0.85rem;
+}
+
+.cli-footnote {
+  margin-top: 1.25rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 720px;
+}
+
+.cli-footnote code {
+  color: var(--accent-2);
 }
 
 .app-layout {

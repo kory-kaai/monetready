@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { MonetreadySpec } from "@monetready/core";
 import { Reveal } from "@/components/ui/Reveal";
 import { PricingCTA } from "@/components/marketing/PricingCTA";
@@ -5,6 +6,17 @@ import { PricingCTA } from "@/components/marketing/PricingCTA";
 interface PricingSectionProps {
   spec: MonetreadySpec;
   featuredIndex?: number;
+}
+
+function featureContent(feature: string) {
+  if (feature === "Self-hosted CLI") {
+    return (
+      <Link href="/cli" className="pricing-feature-link">
+        Self-hosted CLI
+      </Link>
+    );
+  }
+  return feature;
 }
 
 export function PricingSection({ spec, featuredIndex = 1 }: PricingSectionProps) {
@@ -15,7 +27,10 @@ export function PricingSection({ spec, featuredIndex = 1 }: PricingSectionProps)
       <div className="section-header">
         <Reveal>
           <h2>Simple, founder-friendly pricing</h2>
-          <p>Start free. Upgrade when you&apos;re ready to execute playbooks and launch.</p>
+          <p>
+            Start free on monetready.com or self-host with the CLI — same spec and score either way. Upgrade when
+            you&apos;re ready to execute playbooks and launch.
+          </p>
         </Reveal>
       </div>
       <div className="pricing-grid">
@@ -32,7 +47,7 @@ export function PricingSection({ spec, featuredIndex = 1 }: PricingSectionProps)
                 </div>
                 <ul>
                   {tier.features.map((feature) => (
-                    <li key={feature}>{feature}</li>
+                    <li key={feature}>{featureContent(feature)}</li>
                   ))}
                 </ul>
                 <PricingCTA tierName={tier.name} price={tier.price} featured={featured} />

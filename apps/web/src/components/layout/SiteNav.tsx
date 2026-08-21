@@ -44,6 +44,9 @@ export function SiteNav({ spec }: SiteNavProps) {
       <Link href="/pricing" className={pathname === "/pricing" ? "active" : ""}>
         Pricing
       </Link>
+      <Link href="/cli" className={pathname === "/cli" ? "active" : ""}>
+        CLI
+      </Link>
       {github ? (
         <a href={`https://github.com/${github}`} target="_blank" rel="noopener noreferrer">
           GitHub
