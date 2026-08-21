@@ -24,6 +24,7 @@ export function SiteFooter({ spec }: SiteFooterProps) {
           <div>
             <h4>Product</h4>
             <Link href="/pricing">Pricing</Link>
+            <Link href="/cli">Self-hosted CLI</Link>
             <Link href="/signup">Get started</Link>
             {spec.integrations.github ? (
               <a

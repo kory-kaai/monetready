@@ -126,8 +126,8 @@ export function AuthForm({ mode }: AuthFormProps) {
       <h1>{mode === "login" ? "Welcome back" : "Create your account"}</h1>
       <p className="subtitle">
         {mode === "login"
-          ? "Sign in to manage your products and playbooks."
-          : "Start forging revenue-ready products in minutes."}
+          ? "Sign in to your hosted dashboard — score, playbooks, and GitHub YAML sync."
+          : "Create your hosted account, or use the open-source CLI if you prefer self-hosted."}
       </p>
 
       {error ? (
@@ -233,6 +233,9 @@ export function AuthForm({ mode }: AuthFormProps) {
             Already have an account? <Link href="/login">Sign in</Link>
           </>
         )}
+      </p>
+      <p className="auth-footer auth-footer-secondary">
+        Self-hosted instead? <Link href="/cli">View CLI commands</Link>
       </p>
     </div>
   );

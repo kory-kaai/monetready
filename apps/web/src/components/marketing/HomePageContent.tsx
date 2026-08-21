@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import type { MonetreadySpec } from "@monetready/core";
 import { IconChart, IconPlaybook, IconRocket } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
+import { SelfHostedSection } from "@/components/marketing/SelfHostedSection";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface HomePageContentProps {
@@ -30,12 +31,21 @@ const features = [
 ];
 
 const steps = [
-  { title: "Define your product", body: "Run monetready setup — product, pricing, and GTM in one YAML file." },
-  { title: "Audit & improve", body: "Get your Monetready Score and fix gaps before you launch." },
-  { title: "Launch & automate", body: "Generate pages, connect Stripe + SES, and run playbooks on autopilot." },
+  {
+    title: "Define your product",
+    body: "Create a free account and edit monetready.yaml in your dashboard — or run npx monetready-cli init locally.",
+  },
+  {
+    title: "Audit & improve",
+    body: "Get your Monetready Score and fix gaps before you launch. Sync spec from GitHub when your repo is the source of truth.",
+  },
+  {
+    title: "Launch & automate",
+    body: "Generate pages, connect Stripe + SES, and run playbooks on autopilot — or use the self-hosted CLI on your machine.",
+  },
 ];
 
-const trustItems = ["Firebase Auth", "Stripe billing", "Amazon SES", "Open source MIT"];
+const trustItems = ["Firebase Auth", "Stripe billing", "Amazon SES", "Open source MIT core"];
 
 export function HomePageContent({ spec }: HomePageContentProps) {
   const reducedMotion = useReducedMotion();
@@ -56,6 +66,9 @@ export function HomePageContent({ spec }: HomePageContentProps) {
             </Link>
             <Link href="/pricing" className="btn btn-secondary">
               View pricing
+            </Link>
+            <Link href="/cli" className="btn btn-secondary">
+              Self-hosted CLI
             </Link>
           </div>
         </motion.div>
@@ -88,7 +101,7 @@ export function HomePageContent({ spec }: HomePageContentProps) {
         <div className="section-header">
           <Reveal>
             <h2>How it works</h2>
-            <p>From idea to revenue-ready in three steps.</p>
+            <p>From idea to revenue-ready in three steps — hosted or self-hosted.</p>
           </Reveal>
         </div>
         <div className="steps">
@@ -129,6 +142,8 @@ export function HomePageContent({ spec }: HomePageContentProps) {
         </div>
       </section>
 
+      <SelfHostedSection spec={spec} />
+
       <Reveal>
         <div className="container">
           <div className="cta-banner">
@@ -136,9 +151,14 @@ export function HomePageContent({ spec }: HomePageContentProps) {
             <p className="cta-lead">
               Join founders using Monetready to ship with pricing, playbooks, and launch assets from day one.
             </p>
-            <Link href="/signup" className="btn btn-primary">
-              Create free account
-            </Link>
+            <div className="hero-actions" style={{ marginBottom: 0 }}>
+              <Link href="/signup" className="btn btn-primary">
+                Create free account
+              </Link>
+              <Link href="/cli" className="btn btn-secondary">
+                Use the CLI instead
+              </Link>
+            </div>
           </div>
         </div>
       </Reveal>
