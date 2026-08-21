@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/social-preview.png" alt="Monetready — Turn raw ideas into revenue-ready products" width="100%" />
+  <img src=".github/social-preview.png" alt="Monetready — The open-source product forge" width="100%" />
 </p>
 
 <p align="center">
@@ -9,42 +9,84 @@
   <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D20-brightgreen" alt="Node >= 20"></a>
 </p>
 
-<p align="center">
-  <h1 align="center">🔥 Monetready</h1>
-  <p align="center">
-    <strong>The open-source product forge</strong><br/>
-    Turn raw ideas into revenue-ready products
-  </p>
-</p>
+<h1 align="center">Monetready</h1>
+
+<p align="center"><strong>The open-source product forge</strong> — score revenue readiness, run playbooks, and launch pages from a single <code>monetready.yaml</code>. Self-hosted. MIT.</p>
 
 <p align="center">
-  <a href="#quick-start"><strong>Get started in 60 seconds →</strong></a>
-</p>
-
-<p align="center">
-  <a href="#quick-start">Quick Start</a> ·
-  <a href="#monetready-score">Monetready Score</a> ·
+  <a href="#try-it-in-60-seconds">Try in 60s</a> ·
+  <a href="#npm-packages">npm</a> ·
+  <a href="#monetready-score">Score</a> ·
   <a href="#revenue-playbooks">Playbooks</a> ·
-  <a href="#monetready-yaml">monetready.yaml</a> ·
-  <a href="#roadmap">Roadmap</a>
-</p>
-
-<p align="center">
-  If Monetready helps you ship or monetize faster, <a href="https://github.com/kory-kaai/monetready"><strong>give it a ⭐ on GitHub</strong></a> — it helps other indie hackers find it.
+  <a href="#monetready-yaml">Spec</a> ·
+  <a href="#contributing">Contribute</a>
 </p>
 
 ---
 
-**Monetready** is the missing layer between "I built something" and "I'm making money from it."
+## Try it in 60 seconds
 
-While AI agents write code and n8n automates workflows, nobody owns the **business outcome loop**: validate → price → launch → convert → retain → grow. Monetready does.
+**Fastest path** — audit any project folder (no install required):
 
 ```bash
-npx create-monetready my-saas    # Scaffold a revenue-ready product
-cd my-saas && monetready score    # Audit your revenue readiness (0–100)
-monetready fire                   # Launch checklist + next steps
-monetready playbooks run trial-ending-upgrade
+npx monetready-cli init
+npx monetready-cli score
 ```
+
+**New project** — scaffold + full launch pipeline:
+
+```bash
+npx create-monetready my-saas
+cd my-saas
+npx monetready-cli launch
+```
+
+Prefer a global CLI? `npm install -g monetready-cli` then use `monetready` instead of `npx monetready-cli`.
+
+### npm packages
+
+| Package | Install | Command |
+|---------|---------|---------|
+| [`monetready-cli`](https://www.npmjs.com/package/monetready-cli) | `npx monetready-cli` or `npm i -g monetready-cli` | `monetready score`, `monetready launch`, … |
+| [`create-monetready`](https://www.npmjs.com/package/create-monetready) | `npx create-monetready my-saas` | scaffolds a revenue-ready project |
+| [`@monetready/core`](https://www.npmjs.com/package/@monetready/core) | `npm i @monetready/core` | programmatic score, playbooks, page generation |
+
+Requires **Node 20+**. All three packages publish from this repo — see [Publishing](#publishing).
+
+### Example output
+
+Real output from `monetready init && monetready score` on a fresh project:
+
+```
+Monetready Score — My Product
+─────────────────────────────
+
+Score: 33/100 (33%)  Grade: F
+
+Pricing          █████████████░░░░░░░ 65%
+Onboarding       █████░░░░░░░░░░░░░░░ 27%
+Conversion       ██████░░░░░░░░░░░░░░ 30%
+Distribution     █████░░░░░░░░░░░░░░░ 25%
+Integrations     ░░░░░░░░░░░░░░░░░░░░ 0%
+Differentiation  ██████████░░░░░░░░░░ 50%
+
+Findings
+! Pricing not implemented in code
+  Run `monetready launch` or `monetready generate pages` to create pricing assets and wire Stripe.
+! No analytics
+  Add PostHog or Plausible and define 3 core funnel events.
+! README needs work
+  Write a README with problem, solution, quickstart, and pricing.
+…
+
+Not launch-ready yet. Run `monetready fire` for a full checklist.
+```
+
+**Next commands:** `monetready setup` (wizard) · `monetready launch` (score + pages + report) · `monetready playbooks run trial-ending-upgrade` (dry-run a lifecycle email)
+
+---
+
+Monetready is the missing layer between "I built something" and "I'm making money from it." While AI agents write code and n8n automates workflows, nobody owns the **business outcome loop**: validate → price → launch → convert → retain → grow.
 
 ## Why Monetready?
 
@@ -60,23 +102,13 @@ monetready playbooks run trial-ending-upgrade
 
 ## Quick Start
 
-### New project
-
-```bash
-npx create-monetready my-saas
-cd my-saas
-monetready setup      # Guided wizard (easiest)
-monetready launch     # Score + pages + report in one command
-```
-
-### Existing project
-
-```bash
-npm install -g monetready-cli
-monetready setup      # Interactive wizard — no YAML editing required
-monetready launch     # Full launch pipeline
-monetready dashboard --open
-```
+| Goal | Commands |
+|------|----------|
+| Audit an existing repo | `npx monetready-cli init && npx monetready-cli score` |
+| Scaffold a new product | `npx create-monetready my-saas && cd my-saas` |
+| Guided setup (wizard) | `monetready setup` |
+| Full launch pipeline | `monetready launch` |
+| Local dashboard | `monetready dashboard --open` |
 
 ## Monetready Score
 
@@ -93,15 +125,8 @@ A single health metric (0–100) that audits six dimensions of revenue readiness
 
 ```bash
 monetready score
-
-# Monetready Score — My SaaS
-# ─────────────────────────────
 # Score: 72/100 (72%)  Grade: B
-#
-# Pricing          ████████████████░░░░  80%
-# Onboarding       ████████████░░░░░░░░  60%
-# Conversion       ██████████████░░░░░░  70%
-# ...
+# Pricing ████████████████░░░░ 80%  ·  Onboarding ████████████░░░░░░░░ 60%  ·  …
 ```
 
 Use `--json` for CI integration, or gate PRs with `--min-score`:
@@ -353,14 +378,9 @@ Monetready doesn't try to build your SaaS for you. It helps you **ship and monet
 
 ## Contributing
 
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md). Pick up a [`good first issue`](https://github.com/kory-kaai/monetready/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) or browse [open issues](https://github.com/kory-kaai/monetready/issues).
 
-Especially helpful:
-
-- New revenue playbooks for specific niches
-- Integration adapters (SendGrid, Postmark, Mixpanel, Plausible)
-- Monetready Score checks and improvements
-- Translations and docs
+High-impact areas: revenue playbooks, integration adapters (SendGrid, Postmark, Plausible polling), Monetready Score checks, docs.
 
 Join [Discussions](https://github.com/kory-kaai/monetready/discussions) to share what you're building.
 
